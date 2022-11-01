@@ -9,12 +9,13 @@ const products = [];
 // it is reached '/admin/add-product => GET
 router.get('/add-product', (req, res, next) => {
     res.status(200);
-    res.sendFile(path.join(rootDir, 'views', 'add-product.html')); //to get path of the html file
+    //res.sendFile(path.join(rootDir, 'views', 'add-product.html')); //to get path of the html file
+    res.render('add-product.pug');
 });
 
 // it is reached '/admin/add-product => POST
 router.post('/add-product', (req, res, next) => {
-    products.push(req.body.title);
+    products.push({title: req.body.title});
     res.redirect('/');
 });
 
