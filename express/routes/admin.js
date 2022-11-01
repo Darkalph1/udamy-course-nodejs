@@ -10,7 +10,7 @@ const products = [];
 router.get('/add-product', (req, res, next) => {
     res.status(200);
     //res.sendFile(path.join(rootDir, 'views', 'add-product.html')); //to get path of the html file
-    res.render('add-product.pug');
+    res.render('add-product.pug', {docTitle : 'add Product', path : '/admin/add-product' });
 });
 
 // it is reached '/admin/add-product => POST
