@@ -15,4 +15,5 @@ exports.getProducts = (req, res, next) => {
     ProductModel.fetchAll(products => {
         res.render('shop', {prods: products, pageTitle : 'shop', path : '/'}); 
     });
+    
 };
