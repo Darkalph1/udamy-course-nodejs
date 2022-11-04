@@ -1,10 +1,13 @@
 const ProductModel = require('../models/product');
 
+
+//controller to add-product page
 exports.getAddProduct = (req, res, next) => {
     res.status(200);
     res.render('admin/add-product', { pageTitle : 'Add product', path : '/admin/add-product'});
 };
 
+//controller of add-product page post requset
 exports.postAddproduct = (req, res, next) => {
     
     const title = req.body.title;
@@ -17,7 +20,8 @@ exports.postAddproduct = (req, res, next) => {
     res.redirect('/');
 };
 
-// router for admin products list
+
+// router for admin-products list where we can edit products
 exports.getAdminProudctsList = (req, res, next) => {
     ProductModel.fetchAll(products => {
         res.render('admin/productListAdmin', { prods: products, pageTitle : 'Admin prouducts', path : '/admin/products'}); 

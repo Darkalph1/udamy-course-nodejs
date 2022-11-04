@@ -17,9 +17,14 @@ app.use(express.static(__dirname + '/public'));
 
 app.use(bodyParser.urlencoded({extended: false}));
 
+
+//routers for admin /routes/admin.js
 app.use('/admin',adminData.router);  // by adding '/admin' here we can filter incoming paths. it will only accept paths were it have '/admin' in front
+
+//routers for shop /routes/shop.js
 app.use(shopRouters);
 
+//routes for error page
 app.use(errorRouter);
 
 

@@ -5,17 +5,17 @@ const adminController = require('../controller/admin');
 const router = express.Router();
 
 
-// it is reached '/admin/add-product => GET
+// route to  '/admin/add-product => GET
 router.get('/add-product', adminController.getAddProduct);
 
-//it is reached /admin/products => GET
+//route to Admin Products /admin/products => GET
 router.get('/products', adminController.getAdminProudctsList);
 
-// it is reached '/admin/add-product => POST
+// add product to post req route '/admin/add-product => POST
 router.post('/add-product', adminController.postAddproduct);
 
 
-
+//export
 exports.router = router;
 
 

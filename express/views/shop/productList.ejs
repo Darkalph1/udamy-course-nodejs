@@ -23,9 +23,10 @@
                             <p class="product__description"><%= product.description %></p>
                         </div>
                         <div class="card__actions">
-                            <form action="/add-to-cart" method="post">
-                                <button class="btn">Add to Cart</button>
-                            </form>
+                            <a href="/products/<%= product.id %>" class="btn">Details</a>
+
+                            <%- include('../include/add-to-cart.ejs', {product : product}) %> 
+                            <!-- product: product -------here first product is key && second product is the product in this file or for loop -->
                         </div>
                     </article>
                 <% } %>

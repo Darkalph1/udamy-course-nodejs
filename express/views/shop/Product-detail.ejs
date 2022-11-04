@@ -3,4 +3,16 @@
 
 <body>
     <%- include('../include/navigation.ejs') %>
+    <main class="centerd">
+        <h1><%= product.title%></h1>
+        <hr>
+        <div>
+            <img src="<%= product.imageUrl%>" alt="">
+        </div>
+        <h2>$<%= product.price %></h2>
+        <p><%= product.description %></p>
+
+        <%- include('../include/add-to-cart.ejs') %>
+
+    </main>
 <%- include('../include/end.ejs') %>
