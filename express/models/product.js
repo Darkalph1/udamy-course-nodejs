@@ -2,6 +2,8 @@
 const fs = require('fs');
 const path = require('path');
 
+const Cart = require('./cart');
+
 const filePath = path.join(path.dirname(process.mainModule.filename), 'data', 'products.json');
 
 
@@ -20,7 +22,8 @@ const getProductsFromFile = cb => {
 // class handles data flow
 
 module.exports = class Product {
-    constructor(title, imageUrl, description, price){
+    constructor(id, title, imageUrl, description, price){
+        this.id = id;
         this.title = title;
         this.imageUrl = imageUrl;
         this.description = description;
@@ -28,13 +31,26 @@ module.exports = class Product {
     }
 
     save (){
-
+    
         getProductsFromFile(products =>{
-            this.id = Math.random().toString();
-            products.push(this);
-            fs.writeFile(filePath, JSON.stringify(products), (err) => {
-                console.log(err);
-            });
+            if (this.id) {
+                const existingProductIndex = products.findIndex(prod => prod.id === this.id);
+                //console.log("index",existingProductIndex);
+                const updatedProducts = [...products];
+                //console.log("updated Prodcuts before",updatedProducts);
+                updatedProducts[existingProductIndex] = this;
+                //console.log("updated prodcuts after",updatedProducts);
+                fs.writeFile(filePath, JSON.stringify(updatedProducts), (err) => {
+                    console.log(err);
+                });
+            } else {
+
+                this.id = Math.random().toString();
+                products.push(this);
+                fs.writeFile(filePath, JSON.stringify(products), (err) => {
+                    console.log(err);
+                });
+            }
 
         });
         
@@ -54,6 +70,26 @@ module.exports = class Product {
 
         });
 
+    }
+
+    static editElementById (id, cb) {
+        this.findById(id, product => {
+            cb(product);
+        });
+
+    }
+
+    static deleteElementById(id) {
+        getProductsFromFile(products => {
+            const product = products.find(prod => prod.id === id);
+            const updatedProducts = products.filter(prod => prod.id !== id);
+            fs.writeFile(filePath, JSON.stringify(updatedProducts), err => {
+              if (!err) {
+                 Cart.DeleteProduct(id, product.price);
+              }
+            });
+
+        });       
     }
 
 

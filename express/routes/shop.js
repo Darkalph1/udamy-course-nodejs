@@ -21,6 +21,9 @@ router.get('/cart', shopController.getCart);
 //route to add to cart  post req
 router.post('/cart', shopController.postCart);
 
+//route to delete form cart
+router.post('/cart-delete-item', shopController.postCartDeleteProduct);
+
 //rotue to orders
 router.get('/orders', shopController.getOrders);
 

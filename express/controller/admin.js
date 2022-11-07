@@ -4,7 +4,12 @@ const ProductModel = require('../models/product');
 //controller to add-product page
 exports.getAddProduct = (req, res, next) => {
     res.status(200);
-    res.render('admin/add-product', { pageTitle : 'Add product', path : '/admin/add-product'});
+    res.render('admin/edit-product', 
+    { 
+        pageTitle : 'Add product', 
+        path : '/admin/add-product',
+        editing : false
+    });
 };
 
 //controller of add-product page post requset
@@ -15,9 +20,46 @@ exports.postAddproduct = (req, res, next) => {
     const description = req.body.description;
     const price = req.body.price;
 
-    const product = new ProductModel(title, imageUrl, description, price);
+    const product = new ProductModel(null, title, imageUrl, description, price);
     product.save();
     res.redirect('/');
+};
+
+//controller edit product for admin => GET
+exports.getEditProduct = (req, res, next) => {
+    const editMode = req.query.edit;
+
+    if (!editMode) {
+        return res.redirect('/');
+    }
+    const prodId = req.params.productId;
+    ProductModel.findById(prodId, product => {
+
+        if(!product) {
+            return res.redirect('/');
+        }
+
+        res.render('admin/edit-product', {
+            pageTitle : 'Edit product', 
+            path: '/admin/edit-product',
+            product : product,
+            editing: editMode
+        });
+    });
+};
+
+//controller for edit product for admin => POST req
+exports.postEditProduct = (req, res, next) => {
+    const prodId = req.body.prodcutId;
+    const updatedTitle = req.body.title;
+    const updatedImageUrl = req.body.imageUrl;
+    const updatedPrice = req.body.price;
+    const updatedDescription = req.body.description;
+    //console.log("product id at postEditProduct",prodId);
+
+    const updatedProducts = new ProductModel(prodId, updatedTitle, updatedImageUrl, updatedDescription, updatedPrice);
+    updatedProducts.save();
+    res.redirect('/admin/products');
 };
 
 
@@ -28,3 +70,10 @@ exports.getAdminProudctsList = (req, res, next) => {
     });
 
 };
+
+//controller for admin delete button
+exports.postDeleteProduct = (req, res, next) => {
+    const prodId = req.body.productId;
+    ProductModel.deleteElementById(prodId);
+    res.redirect('/admin/products');
+}
